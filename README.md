@@ -1,2 +1,2 @@
-# go-to-tg
+# Go to Tg
 Telegram bot case study.
