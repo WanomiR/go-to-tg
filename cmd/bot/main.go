@@ -30,9 +30,24 @@ func main() {
 			continue
 		}
 
+		// skip everything that is not a command
+		if !update.Message.IsCommand() {
+			continue
+		}
+
 		// now that we've gotten a message, construct a reply
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
-		msg.ReplyToMessageID = update.Message.MessageID
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
+
+		switch update.Message.Command() {
+		case "help":
+			msg.Text = "I understand /sayhi and /status"
+		case "sayhi":
+			msg.Text = "Hi :)"
+		case "status":
+			msg.Text = "I'm ok."
+		default:
+			msg.Text = "I don't know that command"
+		}
 
 		if _, err = bot.Send(msg); err != nil {
 			log.Println(err)
